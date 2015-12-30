@@ -51,7 +51,7 @@ module AutoForme
       @opts[:columns] ||= []
       @opts[:columns].push(column_name) unless opts[:columns].include? column_name
       @opts[:column_options] ||= Hash.new({})
-      @opts[:column_options][column_name].merge! expand_column_options(column_options) unless column_options.nil?
+      @opts[:column_options][column_name] = @opts[:column_options][column_name].merge expand_column_options(column_options) unless column_options.nil?
     end
 
     def expand_column_options(options)
@@ -156,6 +156,10 @@ module AutoForme
       end
 
       opts
+    end
+
+    def readonly_column(column, type, request)
+      column_options_for(type, request, column)[:readonly].true?
     end
 
     def show_html_for(obj, column, type, request)
