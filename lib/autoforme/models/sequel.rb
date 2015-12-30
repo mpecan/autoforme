@@ -50,7 +50,7 @@ module AutoForme
             v = params[col.to_s]
           end
 
-          obj.send("#{column}=", v)
+          obj.send("#{column}=", v) unless readonly_column(column, type, request)
         end
       end
 

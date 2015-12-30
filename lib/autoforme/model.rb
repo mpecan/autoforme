@@ -47,6 +47,21 @@ module AutoForme
       @opts = {}
     end
 
+    def column(column_name, column_options)
+      @opts[:columns] ||= []
+      @opts[:columns].push(column_name) unless opts[:columns].include? column_name
+      @opts[:column_options] ||= Hash.new({})
+      @opts[:column_options][column_name].merge! expand_column_options(column_options) unless column_options.nil?
+    end
+
+    def expand_column_options(options)
+      if options[:readonly].true?
+        options[:attr] ||= {}
+        options[:attr].merge! ({readonly: 'readonly'})
+      end
+      options
+    end
+
     # The underlying model class for the current model
     def model
       if @model.is_a?(Class)
